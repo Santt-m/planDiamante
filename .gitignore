@@ -1,0 +1,12 @@
+# Ignorar archivos en el directorio client
+client/node_modules/
+client/build/
+client/.env
+
+# Ignorar archivos en el directorio server
+server/node_modules/
+server/.env
+
+# Otras reglas globales
+.DS_Store
+*.log
