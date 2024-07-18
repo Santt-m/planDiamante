@@ -1,8 +1,14 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator');
 
 exports.registerUser = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const { name, email, password, role } = req.body;
 
   try {
@@ -36,7 +42,8 @@ exports.registerUser = async (req, res) => {
       { expiresIn: '5h' },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'strict' });
+        res.status(201).json({ message: 'User registered successfully' });
       }
     );
   } catch (error) {
@@ -46,6 +53,11 @@ exports.registerUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const { email, password } = req.body;
 
   try {
@@ -72,7 +84,8 @@ exports.loginUser = async (req, res) => {
       { expiresIn: '5h' },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'strict' });
+        res.json({ message: 'Logged in successfully' });
       }
     );
   } catch (error) {

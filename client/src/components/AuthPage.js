@@ -7,14 +7,17 @@ const AuthPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (isRegistering) {
       await register(name, email, password);
     } else {
       await login(email, password);
     }
+    setLoading(false);
   };
 
   return (
@@ -23,32 +26,44 @@ const AuthPage = () => {
       <form onSubmit={handleSubmit}>
         {isRegistering && (
           <div>
-            <label>Name:</label>
+            <label htmlFor="name">Name:</label>
             <input
+              id="name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
             />
           </div>
         )}
         <div>
-          <label>Email:</label>
+          <label htmlFor="email">Email:</label>
           <input
+            id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
         <div>
-          <label>Password:</label>
+          <label htmlFor="password">Password:</label>
           <input
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
-        <button type="submit">{isRegistering ? 'Register' : 'Login'}</button>
-        <button type="button" onClick={() => setIsRegistering(!isRegistering)}>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Processing...' : isRegistering ? 'Register' : 'Login'}
+        </button>
+        <button
+          type="button"
+          onClick={() => setIsRegistering(!isRegistering)}
+          disabled={loading}
+        >
           {isRegistering ? 'Switch to Login' : 'Switch to Register'}
         </button>
       </form>

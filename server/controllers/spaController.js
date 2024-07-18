@@ -1,29 +1,16 @@
 const Spa = require('../models/spa');
 
-// Controlador para crear un nuevo spa
-exports.createSpa = async (req, res) => {
+const getSpas = async (req, res) => {
   try {
-    const { name, location, description } = req.body;
-    const spa = new Spa({ name, location, description });
-    await spa.save();
-    res.status(201).json(spa);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// Controlador para obtener todos los spas
-exports.getAllSpas = async (req, res) => {
-  try {
-    const spas = await Spa.find();
+    const spas = await Spa.find({});
     res.status(200).json(spas);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error.message);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
-// Controlador para obtener un spa por su ID
-exports.getSpaById = async (req, res) => {
+const getSpaById = async (req, res) => {
   try {
     const spa = await Spa.findById(req.params.id);
     if (!spa) {
@@ -31,37 +18,59 @@ exports.getSpaById = async (req, res) => {
     }
     res.status(200).json(spa);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error.message);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
-// Controlador para actualizar un spa por su ID
-exports.updateSpa = async (req, res) => {
+const createSpa = async (req, res) => {
+  const { name, location, services } = req.body;
   try {
-    const { name, location, description } = req.body;
-    const spa = await Spa.findByIdAndUpdate(
-      req.params.id,
-      { name, location, description },
-      { new: true }
-    );
-    if (!spa) {
-      return res.status(404).json({ message: 'Spa not found' });
-    }
-    res.status(200).json(spa);
+    const spa = new Spa({ name, location, services });
+    const createdSpa = await spa.save();
+    res.status(201).json(createdSpa);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error.message);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
-// Controlador para eliminar un spa por su ID
-exports.deleteSpa = async (req, res) => {
+const updateSpa = async (req, res) => {
+  const { name, location, services } = req.body;
   try {
-    const spa = await Spa.findByIdAndDelete(req.params.id);
+    const spa = await Spa.findById(req.params.id);
     if (!spa) {
       return res.status(404).json({ message: 'Spa not found' });
     }
-    res.status(200).json({ message: 'Spa deleted successfully' });
+    spa.name = name;
+    spa.location = location;
+    spa.services = services;
+    const updatedSpa = await spa.save();
+    res.status(200).json(updatedSpa);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error.message);
+    res.status(500).json({ message: 'Server error' });
   }
+};
+
+const deleteSpa = async (req, res) => {
+  try {
+    const spa = await Spa.findById(req.params.id);
+    if (!spa) {
+      return res.status(404).json({ message: 'Spa not found' });
+    }
+    await spa.remove();
+    res.status(200).json({ message: 'Spa removed' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+module.exports = {
+  getSpas,
+  getSpaById,
+  createSpa,
+  updateSpa,
+  deleteSpa,
 };

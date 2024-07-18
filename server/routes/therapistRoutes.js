@@ -1,10 +1,26 @@
 const express = require('express');
-const { getTherapists, createTherapist } = require('../controllers/therapistController');
-const { protect, authorize } = require('../middleware/authMiddleware');
+const { protect, authorize } = require('../middleware/auth');
+const {
+  getTherapists,
+  getTherapist,
+  createTherapist,
+  updateTherapist,
+  deleteTherapist
+} = require('../controllers/therapistController');
+
 const router = express.Router();
 
-router.route('/')
+// Rutas para obtener todos los terapeutas y crear un nuevo terapeuta
+router
+  .route('/')
   .get(getTherapists)
   .post(protect, authorize('manager', 'Santt'), createTherapist);
+
+// Rutas para obtener, actualizar y eliminar un terapeuta por ID
+router
+  .route('/:id')
+  .get(getTherapist)
+  .put(protect, authorize('manager', 'Santt'), updateTherapist)
+  .delete(protect, authorize('manager', 'Santt'), deleteTherapist);
 
 module.exports = router;

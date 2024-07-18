@@ -8,7 +8,7 @@ const TherapistCard = ({ therapist }) => {
         maxWidth: 345,
         position: 'relative',
         overflow: 'hidden',
-        backgroundImage: `url(https://via.placeholder.com/345x200)`,
+        backgroundImage: `url(${therapist.image || 'https://via.placeholder.com/345x200'})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         height: '300px',
