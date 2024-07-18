@@ -6,12 +6,17 @@ const SpaList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
+  const token = localStorage.getItem('authToken');
 
   useEffect(() => {
     console.log('API URL:', apiUrl); // Verifica la URL de la API
     const fetchSpas = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/spas`);
+        const response = await axios.get(`${apiUrl}/spas`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setSpas(response.data);
       } catch (error) {
         setError('Error fetching spas');
@@ -21,7 +26,7 @@ const SpaList = () => {
       }
     };
     fetchSpas();
-  }, [apiUrl]);
+  }, [apiUrl, token]);
 
   if (loading) {
     return <div>Loading...</div>;

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import TherapistCard from './TherapistCard';
+import { Grid } from '@mui/material';
 
 const TherapistList = () => {
   const [therapists, setTherapists] = useState([]);
@@ -8,6 +10,7 @@ const TherapistList = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
+    console.log('API URL:', apiUrl); // Verifica la URL de la API
     const fetchTherapists = async () => {
       try {
         const response = await axios.get(`${apiUrl}/therapists`);
@@ -31,18 +34,13 @@ const TherapistList = () => {
   }
 
   return (
-    <div>
-      {therapists.length > 0 ? (
-        therapists.map((therapist) => (
-          <div key={therapist.id}>
-            <h3>{therapist.name}</h3>
-            <p>{therapist.specialty}</p>
-          </div>
-        ))
-      ) : (
-        <div>No therapists available</div>
-      )}
-    </div>
+    <Grid container spacing={3}>
+      {therapists.map((therapist) => (
+        <Grid item xs={12} sm={6} md={4} key={therapist._id}>
+          <TherapistCard therapist={therapist} />
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 

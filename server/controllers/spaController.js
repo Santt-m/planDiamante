@@ -1,16 +1,16 @@
 const Spa = require('../models/spa');
 
-const getSpas = async (req, res) => {
+exports.getSpas = async (req, res) => {
   try {
-    const spas = await Spa.find({});
+    const spas = await Spa.find();
     res.status(200).json(spas);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error fetching spas:', error.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 };
 
-const getSpaById = async (req, res) => {
+exports.getSpaById = async (req, res) => {
   try {
     const spa = await Spa.findById(req.params.id);
     if (!spa) {
@@ -18,59 +18,44 @@ const getSpaById = async (req, res) => {
     }
     res.status(200).json(spa);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error fetching spa:', error.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 };
 
-const createSpa = async (req, res) => {
-  const { name, location, services } = req.body;
+exports.createSpa = async (req, res) => {
   try {
-    const spa = new Spa({ name, location, services });
-    const createdSpa = await spa.save();
-    res.status(201).json(createdSpa);
+    const spa = new Spa(req.body);
+    await spa.save();
+    res.status(201).json(spa);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error creating spa:', error.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 };
 
-const updateSpa = async (req, res) => {
-  const { name, location, services } = req.body;
+exports.updateSpa = async (req, res) => {
   try {
-    const spa = await Spa.findById(req.params.id);
+    const spa = await Spa.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!spa) {
       return res.status(404).json({ message: 'Spa not found' });
     }
-    spa.name = name;
-    spa.location = location;
-    spa.services = services;
-    const updatedSpa = await spa.save();
-    res.status(200).json(updatedSpa);
+    res.status(200).json(spa);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error updating spa:', error.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 };
 
-const deleteSpa = async (req, res) => {
+exports.deleteSpa = async (req, res) => {
   try {
-    const spa = await Spa.findById(req.params.id);
+    const spa = await Spa.findByIdAndDelete(req.params.id);
     if (!spa) {
       return res.status(404).json({ message: 'Spa not found' });
     }
-    await spa.remove();
-    res.status(200).json({ message: 'Spa removed' });
+    res.status(200).json({ message: 'Spa deleted' });
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error deleting spa:', error.message);
+    res.status(500).json({ message: 'Server Error' });
   }
-};
-
-module.exports = {
-  getSpas,
-  getSpaById,
-  createSpa,
-  updateSpa,
-  deleteSpa,
 };

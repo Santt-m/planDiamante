@@ -55,16 +55,18 @@ planDiamante/
 │   │   ├── reportWebVitals.js    # Medición de rendimiento
 │   │   ├── setupTests.js         # Configuración para tests
 │   │   ├── components/
-│   │   │   ├── Login.js          # Componente de Login
-│   │   │   ├── Register.js       # Componente de Registro
-│   │   │   ├── Navbar.js         # Componente de Navbar
+│   │   │   ├── About.js          # Página de "Nosotros"
+│   │   │   ├── AuthPage.js       # Página de Autenticación que maneja Login y Registro
 │   │   │   ├── Hero.js           # Componente de Hero
-│   │   │   ├── TherapistCard.js  # Componente de Card para Terapeutas
-│   │   │   ├── TherapistList.js  # Componente para la lista de Terapeutas
+│   │   │   ├── Login.js          # Componente de Login
+│   │   │   ├── Navbar.js         # Componente de Navbar
+│   │   │   ├── Register.js       # Componente de Registro
 │   │   │   ├── SpaCard.js        # Componente de Card para Spas
 │   │   │   ├── SpaList.js        # Componente para la lista de Spas
-│   │   │   ├── AuthPage.js       # Página de Autenticación que maneja Login y Registro
-│   │   │   ├── About.js          # Página de "Nosotros"
+│   │   │   ├── TherapistCard.js  # Componente de Card para Terapeutas
+│   │   │   ├── TherapistList.js  # Componente para la lista de Terapeutas
+
+
 │   │   ├── context/
 │   │   │   ├── AuthContext.js    # Contexto de Autenticación
 │   ├── .env                      # Variables de entorno para la configuración de la aplicación

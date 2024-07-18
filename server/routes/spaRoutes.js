@@ -12,12 +12,12 @@ const router = express.Router();
 
 // Rutas para obtener todos los spas y crear un nuevo spa
 router.route('/')
-  .get(getSpas)
+  .get(getSpas) // Ruta pública, sin protección
   .post(protect, authorize('manager', 'Santt'), createSpa);
 
 // Rutas para obtener, actualizar y eliminar un spa por ID
 router.route('/:id')
-  .get(getSpaById)
+  .get(getSpaById) // Ruta pública, sin protección
   .put(protect, authorize('manager', 'Santt'), updateSpa)
   .delete(protect, authorize('manager', 'Santt'), deleteSpa);
 

@@ -1,4 +1,4 @@
-const Therapist = require('../models/Therapist');
+const Therapist = require('../models/therapist');
 
 // @desc      Get all therapists
 // @route     GET /api/therapists
@@ -6,10 +6,10 @@ const Therapist = require('../models/Therapist');
 exports.getTherapists = async (req, res) => {
   try {
     const therapists = await Therapist.find();
-    res.status(200).json({ success: true, data: therapists });
+    res.status(200).json(therapists);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ success: false, error: 'Server Error' });
+    console.error('Error fetching therapists:', err.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 };
 
@@ -20,12 +20,12 @@ exports.getTherapist = async (req, res) => {
   try {
     const therapist = await Therapist.findById(req.params.id);
     if (!therapist) {
-      return res.status(404).json({ success: false, error: 'Therapist not found' });
+      return res.status(404).json({ message: 'Therapist not found' });
     }
-    res.status(200).json({ success: true, data: therapist });
+    res.status(200).json(therapist);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ success: false, error: 'Server Error' });
+    console.error('Error fetching therapist:', err.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 };
 
@@ -35,10 +35,10 @@ exports.getTherapist = async (req, res) => {
 exports.createTherapist = async (req, res) => {
   try {
     const therapist = await Therapist.create(req.body);
-    res.status(201).json({ success: true, data: therapist });
+    res.status(201).json(therapist);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ success: false, error: 'Server Error' });
+    console.error('Error creating therapist:', err.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 };
 
@@ -49,12 +49,12 @@ exports.updateTherapist = async (req, res) => {
   try {
     const therapist = await Therapist.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!therapist) {
-      return res.status(404).json({ success: false, error: 'Therapist not found' });
+      return res.status(404).json({ message: 'Therapist not found' });
     }
-    res.status(200).json({ success: true, data: therapist });
+    res.status(200).json(therapist);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ success: false, error: 'Server Error' });
+    console.error('Error updating therapist:', err.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 };
 
@@ -65,11 +65,11 @@ exports.deleteTherapist = async (req, res) => {
   try {
     const therapist = await Therapist.findByIdAndDelete(req.params.id);
     if (!therapist) {
-      return res.status(404).json({ success: false, error: 'Therapist not found' });
+      return res.status(404).json({ message: 'Therapist not found' });
     }
-    res.status(200).json({ success: true, data: {} });
+    res.status(200).json({ message: 'Therapist deleted' });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ success: false, error: 'Server Error' });
+    console.error('Error deleting therapist:', err.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 };
