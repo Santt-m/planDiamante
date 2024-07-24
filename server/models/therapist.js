@@ -19,5 +19,4 @@ const therapistSchema = new mongoose.Schema({
   }
 });
 
-const Therapist = mongoose.model('Therapist', therapistSchema);
-module.exports = Therapist;
+module.exports = mongoose.model('Therapist', therapistSchema);

@@ -19,5 +19,4 @@ const spaSchema = new mongoose.Schema({
   }
 });
 
-const Spa = mongoose.model('Spa', spaSchema);
-module.exports = Spa;
+module.exports = mongoose.model('Spa', spaSchema);

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import TherapistCard from './TherapistCard';
-import { Grid } from '@mui/material';
 
 const TherapistList = () => {
   const [therapists, setTherapists] = useState([]);
@@ -14,7 +13,11 @@ const TherapistList = () => {
     const fetchTherapists = async () => {
       try {
         const response = await axios.get(`${apiUrl}/therapists`);
-        setTherapists(response.data);
+        if (response.data && Array.isArray(response.data.data)) {
+          setTherapists(response.data.data);
+        } else {
+          setError('Invalid data format');
+        }
       } catch (error) {
         setError('Error fetching therapists');
         console.error('Error fetching therapists', error);
@@ -34,13 +37,15 @@ const TherapistList = () => {
   }
 
   return (
-    <Grid container spacing={3}>
-      {therapists.map((therapist) => (
-        <Grid item xs={12} sm={6} md={4} key={therapist._id}>
-          <TherapistCard therapist={therapist} />
-        </Grid>
-      ))}
-    </Grid>
+    <div>
+      {therapists.length > 0 ? (
+        therapists.map((therapist) => (
+          <TherapistCard key={therapist.id} therapist={therapist} />
+        ))
+      ) : (
+        <div>No therapists available</div>
+      )}
+    </div>
   );
 };
 

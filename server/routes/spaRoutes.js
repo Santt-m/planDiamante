@@ -1,24 +1,16 @@
 const express = require('express');
-const { protect, authorize } = require('../middleware/auth');
-const {
-  getSpas,
-  getSpaById,
-  createSpa,
-  updateSpa,
-  deleteSpa,
-} = require('../controllers/spaController');
-
+const { getSpas, getSpaById, createSpa, updateSpa, deleteSpa } = require('../controllers/spaController');
 const router = express.Router();
 
 // Rutas para obtener todos los spas y crear un nuevo spa
 router.route('/')
-  .get(getSpas) // Ruta pública, sin protección
-  .post(protect, authorize('manager', 'Santt'), createSpa);
+  .get(getSpas)
+  .post(createSpa);
 
 // Rutas para obtener, actualizar y eliminar un spa por ID
 router.route('/:id')
-  .get(getSpaById) // Ruta pública, sin protección
-  .put(protect, authorize('manager', 'Santt'), updateSpa)
-  .delete(protect, authorize('manager', 'Santt'), deleteSpa);
+  .get(getSpaById)
+  .put(updateSpa)
+  .delete(deleteSpa);
 
 module.exports = router;
