@@ -1,4 +1,3 @@
-// Importar módulos necesarios
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
@@ -27,11 +26,11 @@ app.use(express.json());
 // Definir rutas
 const spaRoutes = require('./routes/spaRoutes');
 const therapistRoutes = require('./routes/therapistRoutes');
-const authRoutes = require('./routes/authRoutes'); // Puedes comentar esta línea si no necesitas autenticación ahora
+const authRoutes = require('./routes/authRoutes');
 
 app.use('/api/spas', spaRoutes);
 app.use('/api/therapists', therapistRoutes);
-app.use('/api/auth', authRoutes); // Puedes comentar esta línea si no necesitas autenticación ahora
+app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT || 5000;
 

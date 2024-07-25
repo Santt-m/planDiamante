@@ -1,55 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import SpaCard from './SpaCard';
 
 const SpaList = () => {
-  const [spas, setSpas] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const apiUrl = process.env.REACT_APP_API_URL;
-  const token = localStorage.getItem('authToken');
+    const [spas, setSpas] = useState([]);
 
-  useEffect(() => {
-    console.log('API URL:', apiUrl); // Verifica la URL de la API
-    const fetchSpas = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/spas`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setSpas(response.data);
-      } catch (error) {
-        setError('Error fetching spas');
-        console.error('Error fetching spas', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchSpas();
-  }, [apiUrl, token]);
+    useEffect(() => {
+        fetch('http://localhost:5000/api/spas')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('API response:', data);
+                if (Array.isArray(data.data)) {
+                    setSpas(data.data);
+                } else {
+                    throw new Error('Response is not an array');
+                }
+            })
+            .catch(error => console.error('Error fetching spas:', error));
+    }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  return (
-    <div>
-      {spas.length > 0 ? (
-        spas.map((spa) => (
-          <div key={spa.id}>
-            <h3>{spa.name}</h3>
-            <p>{spa.location}</p>
-          </div>
-        ))
-      ) : (
-        <div>No spas available</div>
-      )}
-    </div>
-  );
+    return (
+        <div>
+            <h1>Spa List</h1>
+            <div>
+                {spas.map(spa => (
+                    <SpaCard key={spa._id} spa={spa} />
+                ))}
+            </div>
+        </div>
+    );
 };
 
 export default SpaList;
