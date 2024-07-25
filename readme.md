@@ -57,17 +57,29 @@ planDiamante/
 │   │   ├── reportWebVitals.js    # Medición de rendimiento
 │   │   ├── setupTests.js         # Configuración para tests
 │   │   │
-│   │   ├── components/
+│   │   ├── components /
+│   │   │   ├── auth /
+│   │   │   │   ├── Login.js          # Componente de Login
+│   │   │   │   ├── Register.js       # Componente de Registro
+│   │   │   │   ├── AuthPage.js       # Página de Autenticación que maneja Login y Registro
+│   │   │   │
+│   │   │   ├── dashboard /
+│   │   │   │   ├── dashboard.js
+│   │   │   │
+│   │   │   ├── PlanDiamante /
+│   │   │   │   ├── PlanDiamante.js
+│   │   │   │
+│   │   │   ├── spa /
+│   │   │   │   ├── SpaCard.js        # Componente de Card para Spas
+│   │   │   │   ├── SpaList.js        # Componente para la lista de Spas
+│   │   │   │
+│   │   │   ├── therapist /
+│   │   │   │   ├── TherapistCard.js  # Componente de Card para Terapeutas
+│   │   │   │   ├── TherapistList.js  # Componente para la lista de Terapeutas
+│   │   │   │
 │   │   │   ├── About.js          # Página de "Nosotros"
-│   │   │   ├── AuthPage.js       # Página de Autenticación que maneja Login y Registro
 │   │   │   ├── Hero.js           # Componente de Hero
-│   │   │   ├── Login.js          # Componente de Login
 │   │   │   ├── Navbar.js         # Componente de Navbar
-│   │   │   ├── Register.js       # Componente de Registro
-│   │   │   ├── SpaCard.js        # Componente de Card para Spas
-│   │   │   ├── SpaList.js        # Componente para la lista de Spas
-│   │   │   ├── TherapistCard.js  # Componente de Card para Terapeutas
-│   │   │   ├── TherapistList.js  # Componente para la lista de Terapeutas
 │   │   │
 │   │   ├── context/
 │   │   │   ├── AuthContext.js    # Contexto de Autenticación

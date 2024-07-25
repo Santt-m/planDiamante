@@ -1,9 +1,6 @@
-export { default as SpaCard } from './spa/SpaCard';
-export { default as TherapistCard } from './therapist/TherapistCard';
-export { default as Login } from './auth/Login';
-export { default as Register } from './auth/Register';
-
-
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
